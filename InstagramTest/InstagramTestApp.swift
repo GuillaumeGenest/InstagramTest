@@ -11,9 +11,7 @@ import SwiftData
 @main
 struct InstagramTestApp: App {
     var sharedModelContainer: ModelContainer = {
-        let schema = Schema([
-            Item.self,
-        ])
+        let schema = Schema([StoryBundle.self])
         let modelConfiguration = ModelConfiguration(schema: schema, isStoredInMemoryOnly: false)
 
         do {
@@ -25,8 +23,8 @@ struct InstagramTestApp: App {
 
     var body: some Scene {
         WindowGroup {
-            ContentView()
+        
+            ContentView(modelContext: sharedModelContainer.mainContext)
         }
-        .modelContainer(sharedModelContainer)
     }
 }
