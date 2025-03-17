@@ -10,40 +10,43 @@ import Foundation
 import SwiftData
 
 @Model
-final class StoryBundle: Identifiable, Hashable, Equatable {
+final class StoryBundle: Identifiable {
     @Attribute(.unique) var id: String
     var profileName: String
     var profileImage: String
-    var isSeen: Bool = false
+    var isSeen: Bool
     @Relationship(deleteRule: .cascade) var stories: [Story]
-    //var stories: [Story]
     var currentStoryIndex: Int
+  
     
-    init(id: String = UUID().uuidString, profileName: String, profileImage: String, isSeen: Bool, stories: [Story]) {
+    init(id: String = UUID().uuidString, profileName: String, profileImage: String, isSeen: Bool = false, stories: [Story], currentStoryIndex: Int = 0) {
         self.id = id
         self.profileName = profileName
         self.profileImage = profileImage
         self.isSeen = isSeen
         self.stories = stories
-        self.currentStoryIndex = 0
+        self.currentStoryIndex = currentStoryIndex
+    }
+
+//       func updateCurrentIndex(to index: Int) {
+//           guard index >= 0 && index < stories.count else { return }
+//           currentStoryIndex = index
+//           markAsSeenIfLastStory()
+//       }
+
+    func updateCurrentIndex(to index: Int) {
+        guard !stories.isEmpty, index >= 0, index < stories.count else { return }
+        
+        currentStoryIndex = index
+        markAsSeenIfLastStory()
+        if stories.count == 1 || index == stories.count - 1 {
+            markAsSeenIfLastStory()
+        }
     }
     
-    static func == (lhs: StoryBundle, rhs: StoryBundle) -> Bool {
-        return lhs.id == rhs.id
-    }
-
-    func hash(into hasher: inout Hasher) {
-        hasher.combine(id)
-    }
-
-       func updateCurrentIndex(to index: Int) {
-           guard index >= 0 && index < stories.count else { return }
-           currentStoryIndex = index
-           markAsSeenIfLastStory()
-       }
-
+    
        func markAsSeenIfLastStory() {
-           if currentStoryIndex == stories.count - 1 {
+           if stories.count == 1 || currentStoryIndex == stories.count - 1 {
                isSeen = true
            }
        }

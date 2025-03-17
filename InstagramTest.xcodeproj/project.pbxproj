@@ -7,7 +7,7 @@
 	objects = {
 
 /* Begin PBXFileReference section */
-		445140932D7C946E00E26F1E /* InstagramTest.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; name = InstagramTest.app; path = "/Users/amandine/Documents/InstagramTest/build/Debug-iphoneos/InstagramTest.app"; sourceTree = "<absolute>"; };
+		4416D6102D88D46A00D4DE50 /* InstagramTest.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; name = InstagramTest.app; path = "/Users/amandine/Documents/InstagramTest/build/Debug-iphoneos/InstagramTest.app"; sourceTree = "<absolute>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedRootGroup section */
@@ -58,7 +58,7 @@
 			packageProductDependencies = (
 			);
 			productName = InstagramTest;
-			productReference = 445140932D7C946E00E26F1E /* InstagramTest.app */;
+			productReference = 4416D6102D88D46A00D4DE50 /* InstagramTest.app */;
 			productType = "com.apple.product-type.application";
 		};
 /* End PBXNativeTarget section */

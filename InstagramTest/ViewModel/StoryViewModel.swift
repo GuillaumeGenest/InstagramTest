@@ -14,43 +14,39 @@ class StoryViewModel {
     
     var modelContext: ModelContext
     
-    
     init(modelContext: ModelContext) {
         self.modelContext = modelContext
         fetchStoryBundles()
     }
-
     
-    var stories: [StoryBundle] =  []
+    var stories: [StoryBundle] = []
     
     var showStory: Bool = false
-    var currentStory: String =  ""
+    var currentStory: String = ""
     
     var currentBundleIndex: Int = 0
     
     var currentStoryBundle: StoryBundle {
         stories[currentBundleIndex]
     }
-    func generateStoryBundles(){
-        stories.append(contentsOf: SampleData.storyBundles)
-    }
+
     
     func fetchStoryBundles() {
-            let descriptor = FetchDescriptor<StoryBundle>(sortBy: [SortDescriptor(\.profileName)])
-            
-            do {
-                stories = try modelContext.fetch(descriptor)
-            } catch {
-                print("Erreur lors du chargement des StoryBundles: \(error)")
-            }
+        let descriptor = FetchDescriptor<StoryBundle>()
+        do {
+            stories = try modelContext.fetch(descriptor)
             if stories.isEmpty {
-                stories = SampleData.storyBundles
+                StoryBundle.insertSampleData(modelContext: modelContext)
+                stories = try modelContext.fetch(descriptor)
             }
+        } catch {
+            print("Erreur lors du chargement des StoryBundles: \(error)")
         }
+    }
     
     
     func loadMoreStories(){
-        stories.append(contentsOf: SampleData.MoRestoryBundle)
+        StoryBundle.insertMoreSampleData(modelContext: self.modelContext)
     }
     
     

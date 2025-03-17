@@ -17,33 +17,33 @@ struct StoryScrollview : View {
 
     
     var body: some View {
-
-        VStack {
-            HeaderStoryView(storyBundle: storyBundle)
-                .padding(.top, 50)
-        TabView(selection: $currentIndex) {
-                        ForEach(storyBundle.stories.indices, id: \.self) { index in
-                            StoryCardView(storyBundle: storyBundle)
-                                .tag(index)
-                        }
+            VStack {
+                HeaderStoryView(storyBundle: storyBundle)
+                    .padding(.top, 50)
+                TabView(selection: $currentIndex) {
+                    ForEach(storyBundle.stories.indices, id: \.self) { index in
+                        StoryCardView(storyBundle: storyBundle)
+                            .tag(index)
                     }
-            
-        .onChange(of: currentIndex) { oldValue, newValue in
-            storyBundle.updateCurrentIndex(to: newValue)
-            
-        }
-        BottomContent(isLiked: $storyBundle.stories[storyBundle.currentStoryIndex].isliked)
-                .padding(.bottom, 10)
-                .padding()
-                .frame(maxWidth: .infinity)
-                }.background(Color.black)
-            .tabViewStyle(.page(indexDisplayMode: .never))
-            .frame(maxWidth: .infinity, maxHeight: .infinity)
-    .navigationTransition(.zoom(sourceID: storyBundle.id, in: animation))
-    .ignoresSafeArea()
-    .onAppear {
-                currentIndex = storyBundle.currentStoryIndex
-        }
+                }
+//                .onChange(of: currentIndex) { oldValue, newValue in
+//                    storyBundle.updateCurrentIndex(to: newValue)
+//                    
+//                }
+                BottomContent(isLiked: $storyBundle.stories[storyBundle.currentStoryIndex].isliked)
+                    .padding(.bottom, 10)
+                    .padding()
+                    .frame(maxWidth: .infinity)
+            }.background(Color.black)
+                .tabViewStyle(.page(indexDisplayMode: .never))
+                .frame(maxWidth: .infinity, maxHeight: .infinity)
+                .navigationTransition(.zoom(sourceID: storyBundle.id, in: animation))
+                .ignoresSafeArea()
+                .onAppear {
+                    currentIndex = storyBundle.currentStoryIndex
+                }.onDisappear {
+                    storyBundle.updateCurrentIndex(to: storyBundle.currentStoryIndex)
+                }
     }
 }
 

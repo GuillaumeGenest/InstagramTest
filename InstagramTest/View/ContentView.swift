@@ -20,8 +20,6 @@ struct ContentView: View {
     
     
     var body: some View {
-        
-        @Bindable var binding = viewModel
         NavigationStack{
             VStack(spacing: 0){
                 ScrollView(.vertical){
@@ -30,13 +28,14 @@ struct ContentView: View {
                 
                     ScrollView(.horizontal, showsIndicators: false){
                         LazyHStack(spacing: 10){
-                        ForEach($binding.stories){ $story in
+                            ProfileUserStory()
+                        ForEach(viewModel.stories){ story in
                             NavigationLink(value: story){
                                 ProfileStoryBundle(storybundle: story)
                                     .matchedTransitionSource(id: story.id, in: animation){
                                         $0
                                     }
-                                }
+                               }
                             }
                         }.padding(.horizontal, 5)
                             .padding()
@@ -48,15 +47,17 @@ struct ContentView: View {
                     .shadow(color: Color(Color.RGBColorSpace.sRGB,
                                          white: 0, opacity: 0.2) , radius: 4)
                     .frame(height:100)
+                    .padding()
                 }
-            }.refreshable {
-                viewModel.loadMoreStories()
             }
-            .navigationDestination(for: StoryBundle.self) { story in
-                StoryScrollview(storyBundle: story, animation: animation)
-                    .environment(viewModel)
-                    .toolbarVisibility(.hidden, for: .navigationBar)
-                    .interactiveDismissDisabled(true)
+            .refreshable {
+                                viewModel.loadMoreStories()
+                            }
+                .navigationDestination(for: StoryBundle.self) { story in
+                                StoryScrollview(storyBundle: story, animation: animation)
+                                    .environment(viewModel)
+                                    .toolbarVisibility(.hidden, for: .navigationBar)
+                                    .interactiveDismissDisabled(true)
             }
             }
         }
@@ -64,5 +65,6 @@ struct ContentView: View {
 
 
 
-
-
+#Preview {
+    ContentView(modelContext: previewContainer.mainContext)
+}

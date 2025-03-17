@@ -24,39 +24,21 @@ struct ProfileStoryBundle: View {
     var body: some View {
         VStack{
             ZStack {
-                
-                AsyncImage(url: URL(string: storybundle.profileImage)) { phase in
-                            switch phase {
-                            case .success(let image):
-                                image
-                                    .resizable()
-                                    .aspectRatio(contentMode: .fit)
-                                    .frame(width:70, height: 70)
-                                    .clipShape(Circle())
-                            case .failure:
-                                Color.gray
-                                    .frame(width:70, height: 70)
-                                    .clipShape(Circle())
-                            case .empty:
-                                frame(width:70, height: 70)
-                                .clipShape(Circle())
-                            @unknown default:
-                                Color.gray
-                                    .frame(width:70, height: 70)
-                                    .clipShape(Circle())
-                            }
-                    }
+                AsyncImage(url: URL(string: storybundle.profileImage)) { image in
+                    image
+                        .resizable()
+                        .aspectRatio(contentMode: .fit)
+                        .frame(width:70, height: 70)
+                        .clipShape(Circle())
+                } placeholder: {
+                    ProgressView()
+                }
                Circle()
                     .stroke(storybundle.isSeen ?  grayGradient : coloredGradient, lineWidth: storybundle.isSeen ? 2 : 4)
 
                     .frame(width: 80, height: 80)
                     }
                     .padding(2)
-//                    .onTapGesture {
-//                            withAnimation(.easeInOut) {
-//                                storybundle.isSeen = true
-//                            }
-//                        }
                     Text(storybundle.profileName)
                         .font(.caption)
                         .lineLimit(1)
@@ -67,12 +49,11 @@ struct ProfileStoryBundle: View {
         }
 
 #Preview {
-    ProfileStoryBundle(storybundle: StoryBundle( profileName: "kevin", profileImage: "https://i.pravatar.cc/300?u=1", isSeen: false, stories: []))
+    ProfileStoryBundle(storybundle: StoryBundle(profileName: "kevin", profileImage: "https://i.pravatar.cc/300?u=1", isSeen: false, stories: []))
 }
 
-/*
+
 struct ProfileUserStory: View {
-    var user: User
     private let coloredGradient = LinearGradient(
         colors: [.red, .purple, .orange, .pink],
         startPoint: .topLeading,
@@ -86,23 +67,27 @@ struct ProfileUserStory: View {
     var body: some View {
         VStack{
             ZStack(alignment: .bottomTrailing) {
-                Image(user.profileImage)
-                    .resizable()
-                    .scaledToFill()
-                    .frame(width: 70, height: 70)
-                    .clipShape(Circle())
+                AsyncImage(url: URL(string: "https://i.pravatar.cc/300?u=1")) { image in
+                    image
+                        .resizable()
+                        .aspectRatio(contentMode: .fit)
+                        .frame(width:70, height: 70)
+                        .clipShape(Circle())
+                } placeholder: {
+                    ProgressView()
+                }
                 
     
                 Button(action: {}) {
                     Image(systemName: "plus.circle.fill")
                         .resizable()
-                        .frame(width: 24, height: 24) // Taille du bouton
+                        .frame(width: 24, height: 24)
                         .foregroundColor(.blue)
                         .background(Color.white.clipShape(Circle()))
                 }
-                .offset(x: 5, y: 5) // Dépasse légèrement en bas à droite
+                .offset(x: 5, y: 5)
             }
-            Text(user.profileName)
+            Text("kevin")
                 .font(.caption)
                 .lineLimit(1)
                 .frame(width: 70)
@@ -110,4 +95,4 @@ struct ProfileUserStory: View {
         }
        }
 }
-*/
+

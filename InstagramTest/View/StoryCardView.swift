@@ -10,13 +10,21 @@ import SwiftUI
 struct StoryCardView: View {
     var storyBundle: StoryBundle
     var body: some View {
-        ZStack{
-            Color.black
-            VStack(spacing: 0) {
-                ImageView(storyBundle: storyBundle)   
-            }
+        GeometryReader {proxy in
+            ZStack{
+                Color.black
+                VStack(spacing: 0) {
+                    ImageView(storyBundle: storyBundle)   
+                }
+            }.rotation3DEffect(getAngle(proxy: proxy), axis: (x: 0, y: 1, z: 0), anchor: proxy.frame(in: .global).minX > 0 ? .leading : .trailing, perspective: 2.5)
         }
        
+    }
+    func getAngle(proxy: GeometryProxy) -> Angle {
+        let progress = proxy.frame(in: .global).minX / proxy.size.width
+        let rotationAngle: CGFloat = 45
+        let degrees = rotationAngle * progress
+        return Angle(degrees: Double(degrees))
     }
 }
 
@@ -69,7 +77,9 @@ struct HeaderStoryView: View {
                         .foregroundColor(Color.white)
                 }
                 Button {
+                    storyBundle.markAsSeenIfLastStory()
                     dismiss()
+                    
                 } label: {
                     Image(systemName: "xmark")
                         .foregroundColor(Color.white)
