@@ -24,27 +24,29 @@ Ce projet est un clone des fonctionnalités de stories Instagram, réalisé dans
 
 ##Architecture
 L'application est structurée selon le pattern MVVM (Model-View-ViewModel) pour une séparation claire des responsabilités :
+
 ###Structure du projet
-`
-├── InstagramTest/
-│   ├── InstagramTestApp.swift
-│   ├── Model/
-│   │   ├── SampleItem.swift
-│   │   ├── Story.swift
-│   ├── Preview/
-│   │   ├── Preview+ModelContainer.swift
-│   ├── Preview Content/
-│   │   │── Preview Assets/
-│   ├── View/
-│   │   ├── ContentView.swift
-│   │   ├── ProfileStoryBundle.swift
-│   │   ├── StoryCardView.swift
-│   │   ├── StoryScrollView.swift
-│   ├── ViewModel/
-│   │   ├── StoryViewModel.swift
-│   ├── Assets/
-└── InstagramTest.xcodeproj
-`
+
+```
+InstagramTest/
+├── InstagramTestApp.swift
+├── Model/
+│   ├── SampleItem.swift
+│   └── Story.swift
+├── Preview/
+│   └── Preview+ModelContainer.swift
+├── Preview Content/
+│   └── Preview Assets/
+├── View/
+│   ├── ContentView.swift
+│   ├── ProfileStoryBundle.swift
+│   ├── StoryCardView.swift
+│   └── StoryScrollView.swift
+├── ViewModel/
+│   └── StoryViewModel.swift
+└── Assets/
+```
+
 ##Configuration
 - Xcode 15.0+
 - iOS 16.0
@@ -61,39 +63,31 @@ Pour cet exemple des données ont été crées, SampleItem et insérer direcetem
 Les données des stories sont chargées à partir d'un fichier JSON qui a été fournis 
 Exemple de modèle StoryBundle :
 
-`@Model
+`
+@Model
 final class StoryBundle: Identifiable {
-    @Attribute(.unique) var id: String
-    var profileName: String
-    var profileImage: String
-    var isSeen: Bool
-    @Relationship(deleteRule: .cascade) var stories: [Story]
-    var currentStoryIndex: Int
+@Attribute(.unique) var id: String
+var profileName: String
+var profileImage: String
+var isSeen: Bool
+@Relationship(deleteRule: .cascade) var stories: [Story]
+var currentStoryIndex: Int`
   
-    
-    init(id: String = UUID().uuidString, profileName: String, profileImage: String, isSeen: Bool = false, stories: [Story], currentStoryIndex: Int = 0) {
-        self.id = id
-        self.profileName = profileName
-        self.profileImage = profileImage
-        self.isSeen = isSeen
-        self.stories = stories
-        self.currentStoryIndex = currentStoryIndex
-    }`
 
 ## Implémentation clé
-###Persistance des données 
+### Persistance des données 
 Le choix qui a été fait pour ce projet est SwiftData
 
-###Barre de stories
+### Barre de stories
 La barre horizontale est implémentée avec un ScrollView horizontal qui affiche les avatars des utilisateurs avec un gradient pour la story non vue(vu/non vu) et un cercle gris pour la story vu.
 
-###Visualisation des stories
+### Visualisation des stories
 Le système de visualisation des stories utilise un TabView avec un mode .page pour permettre le défilement horizontal entre les stories d'un utilisateur.
 
-###Gestion des likes
+### Gestion des likes
 Un tap sur le bouton coeur en bas de la story permet de la liker.
 
-##Tests
+## Tests
 L'application n'inclut pas de tests unitaires
 Les tests ont été réalisés en preview et sur un portable physique
 
@@ -107,6 +101,6 @@ Les tests ont été réalisés en preview et sur un portable physique
 - Possibilité d'ajouter des commentaires
 - Support des mentions et hashtags cliquables
 
-##Conclusion
+## Conclusion
 Ce projet démontre ma capacité à reproduire une interface utilisateur complexe avec SwiftUI, tout en maintenant un code propre, modulaire et maintenable.
 L'architecture MVVM facilite les tests et les futures extensions du projet.
